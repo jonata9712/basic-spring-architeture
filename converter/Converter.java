@@ -1,21 +1,20 @@
-package br.com.bernhoeft.meetings.converter;
 
 import br.com.bernhoeft.meetings.domain.AbstractEntity;
 import br.com.bernhoeft.meetings.dto.AbstractDTO;
 
-public abstract interface Converter<Entity extends AbstractEntity, DTO extends AbstractDTO>
+public abstract interface Converter<T extends AbstractEntity, DTO extends AbstractDTO>
 {
-	public default DTO from(Entity entity)
+	public default DTO from(T entity)
 	{
 		throw new UnsupportedOperationException();
 	}
 	
-	public default Entity to(DTO dto)
+	public default T to(DTO dto)
 	{
 		return to(dto, null);
 	}
 	
-	public default Entity to(DTO dto, Entity entity)
+	public default T to(DTO dto, T entity)
 	{
 		throw new UnsupportedOperationException();
 	}

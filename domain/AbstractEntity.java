@@ -1,4 +1,3 @@
-package br.com.bernhoeft.meetings.domain;
 
 
 import java.io.Serializable;

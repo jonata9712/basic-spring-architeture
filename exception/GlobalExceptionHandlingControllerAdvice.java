@@ -1,4 +1,3 @@
-package br.com.bernhoeft.meetings.exception;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +20,7 @@ import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import br.com.bernhoeft.meetings.service.MessageService;
 import lombok.AllArgsConstructor;
 
-//@ControllerAdvice
+@ControllerAdvice
 @AllArgsConstructor
 public class GlobalExceptionHandlingControllerAdvice extends ResponseEntityExceptionHandler{
 
@@ -76,6 +75,17 @@ public class GlobalExceptionHandlingControllerAdvice extends ResponseEntityExcep
 	public ErrorDTO errorHandler(BusinessException ex) throws Exception {
 		return ErrorDTO.builder()
 				.code("400")
+				.error(ex.getMessage())
+				.build();
+	}
+	
+	
+	@ResponseStatus(value=HttpStatus.NOT_FOUND)
+	@ExceptionHandler(ResourceNotFoundException.class)
+	@ResponseBody
+	public ErrorDTO errorHandler(ResourceNotFoundException ex) throws Exception {
+		return ErrorDTO.builder()
+				.code("404")
 				.error(ex.getMessage())
 				.build();
 	}

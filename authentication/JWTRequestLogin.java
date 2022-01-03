@@ -1,4 +1,3 @@
-package br.com.bernhoeft.meetings.authentication;
 
 
 import java.io.IOException;
@@ -35,7 +34,6 @@ public class JWTRequestLogin extends GenericFilterBean {
 		String jwt = req.getHeader(JWTUtil.header_name);
 		if (jwt != null) {
 			try {
-				
 				String username = JWTUtil.getUser(jwt);
 				
 				UserDetails ud = service.loadUserByUsername(username);

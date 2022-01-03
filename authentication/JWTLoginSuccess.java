@@ -1,5 +1,3 @@
-package br.com.bernhoeft.meetings.authentication;
-
 
 import java.io.IOException;
 

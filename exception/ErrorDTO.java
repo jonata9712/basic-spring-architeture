@@ -1,4 +1,3 @@
-package br.com.bernhoeft.meetings.exception;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

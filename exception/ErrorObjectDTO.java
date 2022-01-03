@@ -1,4 +1,3 @@
-package br.com.bernhoeft.meetings.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

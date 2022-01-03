@@ -1,5 +1,3 @@
-package br.com.bernhoeft.meetings.authentication;
-
 
 import java.util.ArrayList;
 import java.util.Date;

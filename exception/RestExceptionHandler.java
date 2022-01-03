@@ -1,4 +1,3 @@
-package br.com.bernhoeft.meetings.exception;
 
 import java.util.List;
 import java.util.stream.Collectors;

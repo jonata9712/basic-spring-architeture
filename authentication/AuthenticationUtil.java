@@ -1,7 +1,8 @@
-package br.com.bernhoeft.meetings.authentication;
 
 
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 
@@ -24,6 +25,13 @@ public interface AuthenticationUtil {
 	public static boolean hasAuthority(String authPattern) {
 		return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
 				.anyMatch(a -> a.getAuthority().matches(authPattern));
+	}
+	
+	public static void checkAuthentication() {
+		
+		if (SecurityContextHolder.getContext().getAuthentication() == null) {
+			throw new AccessDeniedException("Não autorizado");
+		}
 	}
 
 }

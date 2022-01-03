@@ -1,4 +1,3 @@
-package br.com.bernhoeft.meetings.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,11 +9,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.com.bernhoeft.meetings.authentication.JWTLoginSuccess;
 import br.com.bernhoeft.meetings.authentication.JWTRequestLogin;
+import br.com.bernhoeft.meetings.service.CollaboratorService;
 
 
 @EnableWebSecurity
@@ -22,9 +23,8 @@ import br.com.bernhoeft.meetings.authentication.JWTRequestLogin;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	// forneça um serviço que implemente a interface userdetailsservice
 	@Autowired
-	private UserDetailsService service;
+	private CollaboratorService service;
 
 	@Autowired
 	private JWTRequestLogin jwt;
@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.csrf().disable().cors().and().antMatcher("/api/**")
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable().cors().and().antMatcher("/api/**")
 		.addFilterBefore(jwt, UsernamePasswordAuthenticationFilter.class)
 		.addFilterAfter(new JWTLoginSuccess(authenticationManager()),
 				UsernamePasswordAuthenticationFilter.class)
@@ -53,10 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManager();
 	}
 
-//	@Override
-//	public void configure(WebSecurity web) throws Exception {
-//		web.ignoring().antMatchers("/api/**");
-//	}
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/api/client/**");
+	}
 	
 	
 

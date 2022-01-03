@@ -1,4 +1,3 @@
-package br.com.bernhoeft.meetings.service;
 
 import java.util.Locale;
 

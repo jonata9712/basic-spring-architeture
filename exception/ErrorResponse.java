@@ -1,7 +1,5 @@
-package br.com.bernhoeft.meetings.exception;
 
 import java.util.List;
-
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

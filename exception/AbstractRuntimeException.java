@@ -1,4 +1,3 @@
-package br.com.bernhoeft.meetings.exception;
 
 import java.lang.reflect.Constructor;
 import java.util.Locale;

@@ -1,4 +1,3 @@
-package br.com.bernhoeft.meetings.exception;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

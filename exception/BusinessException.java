@@ -1,4 +1,3 @@
-package br.com.bernhoeft.meetings.exception;
 
 @SuppressWarnings("serial")
 public class BusinessException extends RuntimeException

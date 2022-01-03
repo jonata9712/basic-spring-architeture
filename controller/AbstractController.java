@@ -1,9 +1,7 @@
-package br.com.bernhoeft.meetings.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.bernhoeft.meetings.authentication.AuthenticationUtil;
 import br.com.bernhoeft.meetings.converter.Converter;
 import br.com.bernhoeft.meetings.domain.AbstractEntity;
 import br.com.bernhoeft.meetings.dto.AbstractDTO;
@@ -27,18 +24,17 @@ import br.com.bernhoeft.meetings.service.AbstractService;
 
 
 
-public abstract class AbstractController<T extends AbstractEntity, DTO extends AbstractDTO, S extends AbstractService<T, JpaRepository<T,Long>>, C extends Converter<T, DTO>> {
+public abstract class AbstractController<
+T extends AbstractEntity, 
+DTO extends AbstractDTO, 
+R extends JpaRepository<T, Long>,
+S extends AbstractService<T, DTO, R, Converter<T,DTO>>> {
 	
 	protected S service;
-	
-	protected C converter;
 
-	
-
-	public AbstractController(S service, C converter) {
+	public AbstractController(S service) {
 		super();
 		this.service = service;
-		this.converter = converter;
 	}
 
 	public void getFile(HttpServletResponse response, String filename) {
@@ -56,35 +52,25 @@ public abstract class AbstractController<T extends AbstractEntity, DTO extends A
 	
 	@GetMapping
 	public List<DTO> getAll(){
-		List<DTO> AbstractDTOList = new ArrayList<DTO>();
 		
-		service.getAll().forEach(a -> {
-			AbstractDTOList.add(converter.from(a));
-		});
-		
-		return AbstractDTOList;
+		return service.getAll();
 	}
 	
 	@GetMapping("/{id}")
 	public DTO getOne(@PathVariable("id") Long id){
-		return converter.from(service.get(id));
+		return service.get(id);
 	}
 	
 	@PostMapping
 	public DTO create(@RequestBody @Valid DTO AbstractDTO) {
-//		List<DTO> response = new ArrayList<>();
-//		AbstractDTO.forEach(d -> {
-//			response.add();
-//		});
-		return converter.from(service.save(converter.to(AbstractDTO)));
+		return service.save(AbstractDTO);
 		
 	}
 	
-	@PatchMapping
-	public AbstractDTO update(@RequestBody @Valid DTO AbstractDTO) {
-		return converter.from(
-					service.save(converter.to(AbstractDTO, service.get(AbstractDTO.getId())))
-				);
+	@PatchMapping("/{id}")
+	public AbstractDTO update(@RequestBody DTO AbstractDTO, @PathVariable("id") Long id) {
+
+		return service.update(id,AbstractDTO);
 		
 	}
 	
@@ -98,7 +84,7 @@ public abstract class AbstractController<T extends AbstractEntity, DTO extends A
 	
 	@GetMapping("/model")
 	public void getModel(HttpServletResponse response){
-        getFile(response,"PROCEDIMENTOS.XLSX");
+        getFile(response,"modelo.XLSX");
         
 	}
 }
